@@ -31,6 +31,9 @@ For configuring app, change options in `config.json` file:
         to: '',
         subject: '',
         message: ''
+        
+## License
+MIT        
   
  
   
