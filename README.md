@@ -18,6 +18,19 @@ For configuring app, change options in `config.json` file:
     }
   }
 ```
+
+## Start server
+    
+    npm start
+    
+## Send mail
+
+    POST /send
+    params:
+        from: '',
+        to: '',
+        subject: '',
+        message: ''
   
  
   
