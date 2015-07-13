@@ -1,0 +1,12 @@
+{
+  "app": {
+    "port": 3000,
+    "secret": "1234567890QWERTY",
+    "maxRequestSize": "1mb",
+    "log": "logs/app.log",
+    "cors": true
+  },
+  "smtp": {
+    "port": 9999
+  }
+}
