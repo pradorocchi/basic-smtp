@@ -14,7 +14,10 @@ For configuring app, change options in `config.json` file:
       cors: 'Enable CORS (true/false)'
     },
     smtp: {
-      port: 'Port for built-in SMTP server'
+      host: 'SMTP host',  
+      port: 'SMTP port'.
+      user: 'SMTP user',
+      pass: 'SMTP pass'
     }
   }
 ```

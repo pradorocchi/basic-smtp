@@ -22,9 +22,8 @@ var compression = require('compression');
 // session support
 var session = require('express-session');
 var sessionStore = new session.MemoryStore();
-var SMTPServer = require('smtp-server').SMTPServer;
 var nodemailer = require('nodemailer');
-var smtpPool = require('nodemailer-smtp-pool');
+var smtpTransport = require('nodemailer-smtp-transport');
 
 
 /**
@@ -33,16 +32,15 @@ var smtpPool = require('nodemailer-smtp-pool');
 
 // express application
 var app = module.exports = express();
-var smtpServer = new SMTPServer({
-    secure: false,
-    disabledCommands: ['AUTH', 'STARTTLS']
-});
-var transporter = nodemailer.createTransport(smtpPool({
-    port: config.get('smtp:port'),
-    secure: false,
-    ignoreTLS: true,
 
-}));
+var transport = nodemailer.createTransport(smtpTransport({
+        host: config.get('mail:smtp:host'),
+        port: config.get('mail:smtp:port'),
+        auth: {
+            user: config.get('mail:smtp:user'),
+            pass: config.get('mail:smtp:pass')
+        }
+    }));
 
 /**
  * Defaults
@@ -107,16 +105,19 @@ app.post('/send', function(req, res) {
         subject: req.body.subject,
         text: req.body.message
     };
-    transporter.sendMail(mail, function(error, info) {
-        if (error) res.send({
-            status: 'ERR',
-            text: error
+    if (transport) {
+        transport.sendMail(mail, function(error, info) {
+            if (error) res.send({
+                status: 'ERR',
+                text: error
+            });
+            else res.send({
+                status: 'OK',
+                text: info.response
+            });
         });
-        else res.send({
-            status: 'OK',
-            text: info.response
-        });
-    })
+    }
+    else throw "Check your SMTP config";
 });
 
 // start APP

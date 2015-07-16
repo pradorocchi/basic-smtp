@@ -6,7 +6,13 @@
     "log": "logs/app.log",
     "cors": true
   },
-  "smtp": {
-    "port": 9999
+  "mail": {
+    "service": "Gmail",
+    "smtp": {
+      "host": "localhost",
+      "port": 25,
+      "user": "",
+      "pass": ""
+    }
   }
 }
